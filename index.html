@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ShelfLife AI — Smart Household Inventory</title>
+<meta name="description" content="ShelfLife AI tracks expiry dates, predicts consumption and helps reduce household waste.">
+<style>
+:root{--bg:#07110d;--panel:#0d1b15;--panel2:#10241b;--text:#f2f7f3;--muted:#a8b8ae;--accent:#7ee081;--accent2:#b8f3a9;--danger:#ff6b6b;--warn:#ffc857;--line:#20372b;--shadow:0 24px 80px #0007}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 80% 0%,#183b27 0,transparent 35%),var(--bg);color:var(--text);font:15px/1.6 Inter,system-ui,-apple-system,Segoe UI,sans-serif}
+a{color:inherit;text-decoration:none}.wrap{max-width:1180px;margin:auto;padding:0 24px}
+nav{height:76px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #ffffff0d;position:sticky;top:0;background:#07110dcc;backdrop-filter:blur(18px);z-index:10}
+.logo{font-weight:800;font-size:21px;letter-spacing:-.6px}.logo span{color:var(--accent)}
+.navlinks{display:flex;gap:25px;color:var(--muted)}.navlinks a:hover{color:#fff}
+.btn{border:0;border-radius:13px;padding:12px 18px;font-weight:750;cursor:pointer;transition:.2s}.btn.primary{background:var(--accent);color:#061008}.btn.primary:hover{transform:translateY(-2px);box-shadow:0 10px 30px #7ee08130}.btn.ghost{background:#ffffff08;color:#fff;border:1px solid var(--line)}
+.hero{padding:88px 0 70px;display:grid;grid-template-columns:1.1fr .9fr;gap:60px;align-items:center}
+.kicker{color:var(--accent);font-weight:800;letter-spacing:2px;text-transform:uppercase;font-size:12px}.hero h1{font-size:clamp(48px,7vw,82px);line-height:.98;letter-spacing:-4px;margin:15px 0 25px}.hero h1 em{font-style:normal;color:var(--accent)}
+.hero p{font-size:18px;color:var(--muted);max-width:650px}.actions{display:flex;gap:12px;margin:30px 0}.proof{display:flex;gap:28px;color:var(--muted);font-size:13px}.proof b{display:block;color:#fff;font-size:19px}
+.phone{background:linear-gradient(145deg,#173325,#0b1711);border:1px solid #31553f;border-radius:34px;padding:14px;box-shadow:var(--shadow);max-width:390px;margin:auto;transform:rotate(1.5deg)}
+.screen{background:#f5f8f5;color:#102018;border-radius:24px;padding:20px;min-height:510px}.screen h3{margin:0}.mini{color:#65766c;font-size:12px}.metric{background:#fff;border:1px solid #e1e8e2;border-radius:16px;padding:16px;margin:12px 0;box-shadow:0 6px 20px #0c201008}.bar{height:7px;background:#dfe9e1;border-radius:9px;overflow:hidden}.bar i{display:block;height:100%;background:#55bb68;border-radius:9px}.pill{display:inline-block;border-radius:99px;padding:4px 9px;font-size:11px;font-weight:800}.red{background:#ffe1e1;color:#b52525}.yellow{background:#fff1c7;color:#8d6400}.green{background:#dcf7e1;color:#24703b}
+section{padding:80px 0}.section-head{max-width:700px;margin-bottom:35px}.section-head h2{font-size:42px;line-height:1.05;letter-spacing:-2px;margin:8px 0}.section-head p{color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.card{background:linear-gradient(145deg,#0e1e16,#0a1711);border:1px solid var(--line);border-radius:22px;padding:25px}.icon{font-size:27px}.card h3{margin:15px 0 8px}.card p{color:var(--muted);margin:0}
+.demo{display:grid;grid-template-columns:.9fr 1.1fr;gap:20px}.demo-panel{background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:25px}.upload{border:1.5px dashed #496b55;border-radius:18px;padding:35px;text-align:center}.upload input{display:none}.inventory{display:grid;gap:10px}.item{display:flex;justify-content:space-between;align-items:center;padding:15px;border-radius:15px;background:#ffffff05;border:1px solid #ffffff0a}.item small{color:var(--muted)}
+.cta{background:linear-gradient(120deg,#163724,#0c1912);border:1px solid #345941;border-radius:30px;padding:50px;display:flex;justify-content:space-between;align-items:center;gap:25px}.cta h2{font-size:42px;line-height:1.05;margin:0}
+footer{border-top:1px solid #ffffff0d;padding:30px 0;color:var(--muted);display:flex;justify-content:space-between}
+.modal{position:fixed;inset:0;background:#0009;display:none;align-items:center;justify-content:center;z-index:20;padding:20px}.modal.show{display:flex}.modalbox{background:#102018;border:1px solid #345941;border-radius:24px;padding:28px;max-width:470px;width:100%;box-shadow:var(--shadow)}.close{float:right;background:none;border:0;color:#fff;font-size:25px;cursor:pointer}
+@media(max-width:850px){.hero,.demo{grid-template-columns:1fr}.grid{grid-template-columns:1fr 1fr}.navlinks{display:none}.hero{padding-top:55px}.phone{max-width:330px}}
+@media(max-width:560px){.grid{grid-template-columns:1fr}.hero h1{letter-spacing:-2px}.actions{flex-direction:column}.cta{padding:30px;display:block}.cta .btn{margin-top:20px}footer{display:block}}
+</style>
+</head>
+<body>
+<nav><div class="wrap" style="width:100%;display:flex;align-items:center;justify-content:space-between"><a class="logo" href="#">ShelfLife <span>AI</span></a><div class="navlinks"><a href="#features">Features</a><a href="#demo">Demo</a><a href="#how">How it works</a></div><button class="btn primary" onclick="openApp()">Try the demo</button></div></nav>
+
+<main>
+<section class="hero wrap">
+<div>
+<div class="kicker">AI-powered household inventory</div>
+<h1>Use it before<br>it's <em>gone.</em></h1>
+<p>ShelfLife AI turns your camera into a smart pantry assistant. Scan products, capture expiry dates, predict consumption and get timely suggestions before food and essentials go to waste.</p>
+<div class="actions"><button class="btn primary" onclick="openApp()">Scan a product →</button><a class="btn ghost" href="#features">Explore features</a></div>
+<div class="proof"><div><b>01</b>Camera-first</div><div><b>02</b>AI-assisted</div><div><b>03</b>Waste-aware</div></div>
+</div>
+<div class="phone"><div class="screen">
+<div class="mini">GOOD MORNING</div><h3>Your shelf today</h3>
+<div class="metric"><div style="display:flex;justify-content:space-between"><b>3 items need attention</b><span class="pill red">URGENT</span></div><p class="mini">Check these before they expire.</p></div>
+<div class="metric"><div style="display:flex;justify-content:space-between"><b>Milk · 2 L</b><span class="pill yellow">2 days</span></div><div class="bar"><i style="width:78%"></i></div></div>
+<div class="metric"><div style="display:flex;justify-content:space-between"><b>Eggs · 6</b><span class="pill yellow">4 days</span></div><div class="bar"><i style="width:62%"></i></div></div>
+<div class="metric"><div style="display:flex;justify-content:space-between"><b>Tomatoes · 5</b><span class="pill green">7 days</span></div><div class="bar"><i style="width:35%"></i></div></div>
+</div></div>
+</section>
+
+<section id="features"><div class="wrap"><div class="section-head"><div class="kicker">One scan. Less waste.</div><h2>Your household, understood.</h2><p>ShelfLife combines computer vision, OCR and lightweight prediction into one simple experience.</p></div>
+<div class="grid">
+<div class="card"><div class="icon">📷</div><h3>Scan & extract</h3><p>Capture a label and extract product, date, batch and quantity information with OCR.</p></div>
+<div class="card"><div class="icon">⏳</div><h3>Smart expiry</h3><p>Turn raw dates into useful urgency levels: Use Today, Use Soon, or This Month.</p></div>
+<div class="card"><div class="icon">🧠</div><h3>Consumption AI</h3><p>Learn household usage patterns and estimate whether an item will be finished in time.</p></div>
+<div class="card"><div class="icon">🍳</div><h3>Use-it suggestions</h3><p>Get recipe and usage ideas built around products approaching their expiry window.</p></div>
+<div class="card"><div class="icon">🛒</div><h3>Smart shopping</h3><p>Predict replenishment and prevent duplicate purchases with a live inventory.</p></div>
+<div class="card"><div class="icon">👨‍👩‍👧</div><h3>Family inventory</h3><p>Keep a shared household view so everyone knows what is available and what needs attention.</p></div>
+</div></div></section>
+
+<section id="demo"><div class="wrap"><div class="section-head"><div class="kicker">Interactive prototype</div><h2>Try ShelfLife now.</h2><p>This front-end demo simulates scanning and inventory management without sending your data anywhere.</p></div>
+<div class="demo"><div class="demo-panel"><div class="upload"><div style="font-size:40px">📸</div><h3>Scan a product</h3><p style="color:var(--muted)">Choose an image to simulate AI extraction.</p><label class="btn primary" for="photo">Choose image</label><input id="photo" type="file" accept="image/*" onchange="scan(this)"><p id="scanStatus" class="mini"></p></div></div>
+<div class="demo-panel"><h3>Live inventory</h3><div class="inventory" id="inventory"></div><button class="btn ghost" style="margin-top:15px" onclick="addItem()">＋ Add sample item</button></div></div></div></section>
+
+<section id="how"><div class="wrap"><div class="section-head"><div class="kicker">Simple by design</div><h2>From shelf to insight.</h2></div><div class="grid">
+<div class="card"><h3>01 · Capture</h3><p>Point your phone at the product label or barcode.</p></div>
+<div class="card"><h3>02 · Understand</h3><p>OCR and product recognition extract structured information.</p></div>
+<div class="card"><h3>03 · Act</h3><p>Receive reminders, usage ideas and replenishment suggestions at the right time.</p></div>
+</div></div></section>
+
+<section><div class="wrap"><div class="cta"><div><div class="kicker">Build a smarter shelf</div><h2>Waste less.<br>Know more.</h2></div><button class="btn primary" onclick="openApp()">Launch prototype →</button></div></div></section>
+</main>
+
+<footer><div class="wrap" style="width:100%;display:flex;justify-content:space-between"><span>© 2026 ShelfLife AI</span><span>Smart inventory · Responsible consumption</span></div></footer>
+
+<div class="modal" id="modal"><div class="modalbox"><button class="close" onclick="closeApp()">×</button><div class="kicker">ShelfLife AI</div><h2>Prototype ready</h2><p style="color:var(--muted)">Start with the scanner below. In a production app, this flow would connect to OCR, product recognition and your inventory database.</p><button class="btn primary" onclick="closeApp();document.getElementById('demo').scrollIntoView()">Open scanner</button></div></div>
+
+<script>
+const sample=[["Milk · 2 L","Expires in 2 days","red"],["Eggs · 6","Expires in 4 days","yellow"],["Tomatoes · 5","Expires in 7 days","green"],["Rice · 5 kg","Expires in 142 days","green"]];
+function render(){document.getElementById("inventory").innerHTML=sample.map(x=>`<div class="item"><div><b>${x[0]}</b><br><small>${x[1]}</small></div><span class="pill ${x[2]}">${x[2]=="red"?"USE TODAY":x[2]=="yellow"?"USE SOON":"OK"}</span></div>`).join("")}
+function addItem(){sample.push(["Yogurt · 4 cups","Expires in 6 days","yellow"]);render()}
+function scan(input){if(input.files.length){document.getElementById("scanStatus").textContent="✓ AI scan simulated — product details extracted.";setTimeout(()=>{sample.unshift(["Scanned product","Expires in 9 days","green"]);render()},500)}}
+function openApp(){document.getElementById("modal").classList.add("show")}
+function closeApp(){document.getElementById("modal").classList.remove("show")}
+render();
+</script>
+</body>
+</html>
